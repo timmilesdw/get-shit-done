@@ -22,9 +22,34 @@ class CursorAdapter extends AdapterBase {
   }
 
   /**
+   * Cursor uses "/" as command separator (gsd/help instead of gsd:help)
+   */
+  get commandSeparator() {
+    return '/';
+  }
+
+  /**
+   * Override transformContent to add command reference transformation
+   */
+  transformContent(content, pathPrefix) {
+    let result = content;
+
+    // Replace source path references with target platform paths
+    result = result.replace(/~\/\.claude\//g, pathPrefix);
+
+    // Apply platform-specific transformations
+    result = this.transformFrontmatter(result);
+    result = this.transformFileReferences(result, pathPrefix);
+    result = this.transformCommandReferences(result);
+
+    return result;
+  }
+
+  /**
    * Transform frontmatter for Cursor compatibility:
    * - Remove 'allowed-tools' (not supported)
    * - Move 'argument-hint' into description
+   * - Transform command name from gsd:xxx to gsd/xxx
    */
   transformFrontmatter(content) {
     const { frontmatter, body, raw } = parseFrontmatter(content);
@@ -35,6 +60,11 @@ class CursorAdapter extends AdapterBase {
 
     // Remove unsupported fields
     delete frontmatter['allowed-tools'];
+
+    // Transform command name: gsd:xxx → gsd/xxx
+    if (frontmatter.name && frontmatter.name.includes(':')) {
+      frontmatter.name = frontmatter.name.replace(/:/g, '/');
+    }
 
     // Append argument-hint to description if present
     if (frontmatter['argument-hint']) {
@@ -47,6 +77,18 @@ class CursorAdapter extends AdapterBase {
     }
 
     return reconstructMarkdown(frontmatter, body);
+  }
+
+  /**
+   * Transform command references in content.
+   * Cursor uses gsd/command format, not gsd:command
+   *
+   * Pattern: /gsd:xxx → /gsd/xxx
+   */
+  transformCommandReferences(content) {
+    const sep = this.commandSeparator;
+    // Transform /gsd:command → /gsd/command (or whatever separator this platform uses)
+    return content.replace(/\/gsd:([a-z-]+)/g, `/gsd${sep}$1`);
   }
 
   /**

@@ -240,7 +240,7 @@ function install(isGlobal) {
   }
 
   console.log(`
-  ${green}Done!${reset} Run ${cyan}/gsd:help${reset} to get started.
+  ${green}Done!${reset} Run ${cyan}${adapter.formatCommand('help')}${reset} to get started.
 `);
 }
 

@@ -117,6 +117,24 @@ class AdapterBase {
   validate(homeDir) {
     return { valid: true };
   }
+
+  /**
+   * Get command separator for this platform
+   * Claude Code uses ":" (gsd:help), Cursor uses "/" (gsd/help)
+   * @returns {string}
+   */
+  get commandSeparator() {
+    return ':';
+  }
+
+  /**
+   * Format a command name for this platform
+   * @param {string} command - Command name without prefix (e.g., "help")
+   * @returns {string}
+   */
+  formatCommand(command) {
+    return `/gsd${this.commandSeparator}${command}`;
+  }
 }
 
 /**
