@@ -1,19 +1,22 @@
 {
   "name": "get-shit-done-cc",
   "version": "1.3.34",
-  "description": "A meta-prompting, context engineering and spec-driven development system for Claude Code by TÂCHES.",
+  "description": "A meta-prompting, context engineering and spec-driven development system for AI coding agents (Claude Code, Cursor) by TÂCHES.",
   "bin": {
     "get-shit-done-cc": "bin/install.js"
   },
   "files": [
     "bin",
     "commands",
-    "get-shit-done"
+    "get-shit-done",
+    "platforms"
   ],
   "keywords": [
     "claude",
     "claude-code",
+    "cursor",
     "ai",
+    "ai-coding",
     "meta-prompting",
     "context-engineering",
     "spec-driven-development"

@@ -2,7 +2,9 @@
 
 # GET SHIT DONE
 
-**A light-weight and powerful meta-prompting, context engineering and spec-driven development system for Claude Code by TÂCHES.**
+**A light-weight and powerful meta-prompting, context engineering and spec-driven development system for AI coding agents by TÂCHES.**
+
+**Supports: Claude Code | Cursor**
 
 [![npm version](https://img.shields.io/npm/v/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
 [![npm downloads](https://img.shields.io/npm/dm/get-shit-done-cc?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-shit-done-cc)
@@ -69,18 +71,39 @@ People who want to describe what they want and have it built correctly — witho
 
 ## Getting Started
 
+### Claude Code (Default)
+
 ```bash
 npx get-shit-done-cc
 ```
 
 That's it. Verify with `/gsd:help`.
 
-<details>
-<summary><strong>Non-interactive Install (Docker, CI, Scripts)</strong></summary>
+### Cursor
 
 ```bash
-npx get-shit-done-cc --global   # Install to ~/.claude/
-npx get-shit-done-cc --local    # Install to ./.claude/
+npx get-shit-done-cc --ai cursor
+```
+
+Verify with `/gsd:help` in Cursor chat.
+
+> [!NOTE]
+> Cursor subagents require the **Nightly** release channel. Commands work on all versions.
+
+<details>
+<summary><strong>All Installation Options</strong></summary>
+
+```bash
+# Claude Code (default)
+npx get-shit-done-cc --global          # Install to ~/.claude/
+npx get-shit-done-cc --local           # Install to ./.claude/
+
+# Cursor
+npx get-shit-done-cc --ai cursor --global   # Install to ~/.cursor/
+npx get-shit-done-cc --ai cursor --local    # Install to ./.cursor/
+
+# Custom config directory
+npx get-shit-done-cc --config-dir ~/.claude-work --global
 ```
 
 Use `--global` (`-g`) or `--local` (`-l`) to skip the interactive prompt.
@@ -95,10 +118,9 @@ Clone the repository and run the installer locally:
 ```bash
 git clone https://github.com/glittercowboy/get-shit-done.git
 cd get-shit-done
-node bin/install.js --local
+node bin/install.js --local                    # Claude Code
+node bin/install.js --ai cursor --local        # Cursor
 ```
-
-Installs to `./.claude/` for testing modifications before contributing.
 
 </details>
 
@@ -344,25 +366,34 @@ You're never locked in. The system adapts.
 ## Troubleshooting
 
 **Commands not found after install?**
-- Restart Claude Code to reload slash commands
-- Verify files exist in `~/.claude/commands/gsd/` (global) or `./.claude/commands/gsd/` (local)
+- Restart your IDE to reload slash commands
+- Claude Code: Verify files exist in `~/.claude/commands/gsd/` (global) or `./.claude/commands/gsd/` (local)
+- Cursor: Verify files exist in `~/.cursor/commands/gsd/` (global) or `./.cursor/commands/gsd/` (local)
 
 **Commands not working as expected?**
 - Run `/gsd:help` to verify installation
-- Re-run `npx get-shit-done-cc` to reinstall
+- Re-run the installer to reinstall
 
 **Updating to the latest version?**
 ```bash
 npx get-shit-done-cc@latest
+npx get-shit-done-cc@latest --ai cursor   # For Cursor
 ```
 
 **Using Docker or containerized environments?**
 
-If file reads fail with tilde paths (`~/.claude/...`), set `CLAUDE_CONFIG_DIR` before installing:
+If file reads fail with tilde paths, set config dir before installing:
 ```bash
 CLAUDE_CONFIG_DIR=/home/youruser/.claude npx get-shit-done-cc --global
 ```
-This ensures absolute paths are used instead of `~` which may not expand correctly in containers.
+
+**Cursor: Subagents not working?**
+
+Cursor subagents require the Nightly release channel:
+1. Open Cursor Settings (Cmd+Shift+J)
+2. Select **Beta** tab
+3. Set update channel to **Nightly**
+4. Restart Cursor
 
 ---
 
@@ -386,6 +417,6 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 <div align="center">
 
-**Claude Code is powerful. GSD makes it reliable.**
+**AI coding agents are powerful. GSD makes them reliable.**
 
 </div>
